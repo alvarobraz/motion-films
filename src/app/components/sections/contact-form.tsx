@@ -5,6 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { leadSchema, LeadInput } from '@/lib/schemas';
 import { Button } from '../ui/button';
 import { useState } from 'react';
+import { Input } from '../ui/input';
 
 export function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -65,43 +66,25 @@ export function ContactForm() {
             className="space-y-4 rounded-2xl border border-white/5 bg-zinc-800 p-8"
           >
             <div>
-              <input
+              <Input
                 {...register('name')}
                 placeholder="Nome completo"
-                className="focus:border-primary w-full rounded-lg border border-white/10 bg-zinc-900 px-4 py-3 text-white transition-all outline-none"
+                error={errors.name?.message}
               />
-              {errors.name && (
-                <span className="mt-1 text-xs text-red-500">
-                  {errors.name.message}
-                </span>
-              )}
             </div>
 
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-              <div>
-                <input
-                  {...register('email')}
-                  placeholder="E-mail"
-                  className="focus:border-primary w-full rounded-lg border border-white/10 bg-zinc-900 px-4 py-3 text-white transition-all outline-none"
-                />
-                {errors.email && (
-                  <span className="mt-1 text-xs text-red-500">
-                    {errors.email.message}
-                  </span>
-                )}
-              </div>
-              <div>
-                <input
-                  {...register('phone')}
-                  placeholder="WhatsApp"
-                  className="focus:border-primary w-full rounded-lg border border-white/10 bg-zinc-900 px-4 py-3 text-white transition-all outline-none"
-                />
-                {errors.phone && (
-                  <span className="mt-1 text-xs text-red-500">
-                    {errors.phone.message}
-                  </span>
-                )}
-              </div>
+              <Input
+                {...register('email')}
+                placeholder="E-mail"
+                type="email"
+                error={errors.email?.message}
+              />
+              <Input
+                {...register('phone')}
+                placeholder="WhatsApp"
+                error={errors.phone?.message}
+              />
             </div>
 
             <div>
