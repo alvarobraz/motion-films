@@ -6,6 +6,7 @@ import { leadSchema, LeadInput } from '@/lib/schemas';
 import { Button } from '../ui/button';
 import { useState } from 'react';
 import { Input } from '../ui/input';
+import { Textarea } from '../ui/textarea';
 
 export function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -88,17 +89,11 @@ export function ContactForm() {
             </div>
 
             <div>
-              <textarea
+              <Textarea
                 {...register('message')}
                 placeholder="Fale um pouco sobre o vídeo que você precisa..."
-                rows={4}
-                className="focus:border-primary w-full resize-none rounded-lg border border-white/10 bg-zinc-900 px-4 py-3 text-white transition-all outline-none"
+                error={errors.message?.message}
               />
-              {errors.message && (
-                <span className="mt-1 text-xs text-red-500">
-                  {errors.message.message}
-                </span>
-              )}
             </div>
 
             <Button
