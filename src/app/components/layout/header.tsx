@@ -46,8 +46,8 @@ export function Header() {
             </Link>
           ))}
 
-          <Button variant="brand" size="sm">
-            Orçamento
+          <Button variant="brand" size="sm" asChild>
+            <Link href="#contato">Orçamento</Link>
           </Button>
         </nav>
 

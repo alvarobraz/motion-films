@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { Button } from '../ui/button';
 
 export function Hero() {
@@ -29,7 +30,9 @@ export function Hero() {
         </p>
 
         <div className="flex flex-col justify-center gap-4 sm:flex-row">
-          <Button variant="brand">Solicitar Orçamento</Button>
+          <Button variant="brand" asChild>
+            <Link href="#contato">Orçamento</Link>
+          </Button>
           <Button variant="outline">Ver Portfólio</Button>
         </div>
       </div>
