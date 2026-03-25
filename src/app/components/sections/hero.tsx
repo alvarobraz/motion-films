@@ -1,3 +1,5 @@
+import { Button } from '../ui/button';
+
 export function Hero() {
   return (
     <section className="relative flex h-screen w-full items-center justify-center overflow-hidden">
@@ -27,12 +29,8 @@ export function Hero() {
         </p>
 
         <div className="flex flex-col justify-center gap-4 sm:flex-row">
-          <button className="rounded-full bg-white px-8 py-4 font-bold text-black transition-all hover:bg-gray-200">
-            Ver Portfólio
-          </button>
-          <button className="rounded-full border border-white/30 bg-white/10 px-8 py-4 font-bold text-white backdrop-blur-md transition-all hover:bg-white/20">
-            Solicitar Orçamento
-          </button>
+          <Button variant="brand">Solicitar Orçamento</Button>
+          <Button variant="outline">Ver Portfólio</Button>
         </div>
       </div>
 

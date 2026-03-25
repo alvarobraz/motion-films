@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
+import { Button } from '../ui/button';
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -45,12 +46,9 @@ export function Header() {
             </Link>
           ))}
 
-          <Link
-            href="#contato"
-            className="hover:bg-primary rounded-full bg-white px-5 py-2 text-sm font-bold text-black transition-all hover:text-white"
-          >
+          <Button variant="brand" size="sm">
             Orçamento
-          </Link>
+          </Button>
         </nav>
 
         {/* Mobile Menu Icon */}
