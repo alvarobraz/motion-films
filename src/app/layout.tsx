@@ -1,3 +1,4 @@
+import { Toaster } from 'sonner';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import '../styles/globals.css';
@@ -57,6 +58,7 @@ export default function RootLayout({
         <main>
           <Header />
           {children}
+          <Toaster richColors position="top-right" theme="dark" />
         </main>
       </body>
     </html>
