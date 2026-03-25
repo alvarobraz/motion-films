@@ -1,0 +1,26 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum LeadStatus {
+  PENDING
+  CONTACTED
+  ARCHIVED
+}
+
+model Lead {
+  id          String     @id @default(uuid())
+  name        String
+  email       String
+  phone       String
+  requirement String
+  status      LeadStatus @default(PENDING)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@map("leads")
+}
