@@ -5,44 +5,50 @@ import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 
 const leadSchema = z.object({
-  name: z.string().min(3, 'O nome deve ter pelo menos 3 caracteres'),
-  email: z.string().email('Insira um e-mail válido'),
-  phone: z.string().min(10, 'Insira um telefone válido com DDD'),
-  message: z.string().min(10, 'Conte um pouco mais sobre o seu projeto'),
+  name: z.string().min(3, 'Nome muito curto'),
+  email: z.string().email('E-mail inválido'),
+  phone: z.string().min(10, 'Telefone inválido'),
+  requirement: z.string().min(1, 'Selecione uma necessidade'),
+  message: z.string().min(10, 'Conte um pouco mais sobre o projeto'),
 });
 
 export async function createLeadAction(data: z.infer<typeof leadSchema>) {
+  console.log('Dados recebidos na Action:', data);
   try {
-    // 1. Validação REAL no servidor
     const validated = leadSchema.parse(data);
 
-    // 2. Persistência com Prisma
-    // Usamos connectOrCreate no Customer baseado no Telefone (ou Email)
     await prisma.lead.create({
       data: {
-        name: validated.name,
-        email: validated.email,
-        phone: validated.phone,
-        requirement: validated.message,
+        requirement: validated.requirement,
+        message: validated.message,
+        customer: {
+          connectOrCreate: {
+            where: { email: validated.email },
+            create: {
+              name: validated.name,
+              email: validated.email,
+              phone: validated.phone,
+            },
+          },
+        },
       },
     });
 
-    // 3. Revalidação e Sucesso
     revalidatePath('/');
     return { success: true };
   } catch (error) {
+    console.log('Error:', error);
     if (error instanceof z.ZodError) {
       return {
         success: false,
-        message: error.message, // Retorna a primeira mensagem de erro do Zod
+        message: error.message,
       };
     }
 
-    console.error('Erro ao salvar Lead no Prisma:', error);
+    console.error('Erro ao salvar no Banco:', error);
     return {
       success: false,
-      message:
-        'Não foi possível processar sua solicitação agora. Tente novamente.',
+      message: 'Erro interno ao processar seu contato. Tente novamente.',
     };
   }
 }

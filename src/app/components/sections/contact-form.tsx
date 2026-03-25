@@ -10,6 +10,15 @@ import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
 import { createLeadAction } from '@/app/actions/create-lead';
+import { SelectInput } from '../ui/select-input';
+
+const necessityOptions = [
+  { value: 'institucional', label: 'Vídeo Institucional' },
+  { value: 'comercial', label: 'Comercial / Publicidade' },
+  { value: 'social', label: 'Conteúdo para Redes Sociais' },
+  { value: 'evento', label: 'Cobertura de Evento' },
+  { value: 'documentario', label: 'Documentário / Storytelling' },
+];
 
 export function ContactForm() {
   const {
@@ -58,12 +67,17 @@ export function ContactForm() {
               error={errors.name?.message}
             />
 
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-1">
               <Input
                 {...register('email')}
                 placeholder="E-mail"
                 type="email"
                 error={errors.email?.message}
+              />
+              <SelectInput
+                {...register('requirement')}
+                options={necessityOptions}
+                error={errors.requirement?.message}
               />
               <Input
                 {...register('phone')}

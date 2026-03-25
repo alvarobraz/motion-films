@@ -12,15 +12,20 @@ enum LeadStatus {
   ARCHIVED
 }
 
-model Lead {
-  id          String     @id @default(uuid())
-  name        String
-  email       String
-  phone       String
-  requirement String
-  status      LeadStatus @default(PENDING)
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
+model Customer {
+  id    String @id @default(cuid())
+  name  String
+  email String @unique
+  phone String @unique
+  leads Lead[]
+}
 
-  @@map("leads")
+model Lead {
+  id          String   @id @default(cuid())
+  requirement String
+  message     String
+  createdAt   DateTime @default(now())
+
+  customerId String
+  customer   Customer @relation(fields: [customerId], references: [id])
 }

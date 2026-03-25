@@ -4,10 +4,8 @@ import * as pg from 'pg';
 
 const globalForPrisma = global as unknown as { prisma: PrismaClient };
 
-// 1. Criamos a pool
 const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
 
-// 2. Injetamos com 'as any' para ignorar o conflito de versões de tipos
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const adapter = new PrismaPg(pool as any);
 
