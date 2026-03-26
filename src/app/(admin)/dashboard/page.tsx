@@ -4,9 +4,19 @@ import { LeadsChart } from '@/app/components/dashboard/leads-chart';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { getDashboardStats } from '@/app/services/admin/get-dashboard-stats';
+import { Pagination } from '@/app/components/dashboard/ui/Pagination';
 
-export default async function DashboardPage() {
-  const { leads, chartData } = await getDashboardStats();
+interface PageProps {
+  searchParams: Promise<{ page?: string }>;
+}
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
+export default async function DashboardPage({ searchParams }: PageProps) {
+  const params = await searchParams;
+  const currentPage = Math.max(1, Number(params.page) || 1);
+  const { leads, chartData, pagination } = await getDashboardStats(currentPage);
 
   return (
     <div className="flex flex-col gap-8 py-4">
@@ -32,7 +42,7 @@ export default async function DashboardPage() {
             </h3>
           </div>
 
-          <div className="flex flex-col gap-4">
+          <div key={pagination.currentPage} className="flex flex-col gap-4">
             {leads.length === 0 ? (
               <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-white/10 py-20">
                 <p className="text-zinc-500 italic">
@@ -83,6 +93,12 @@ export default async function DashboardPage() {
                   </div>
                 </div>
               ))
+            )}
+            {leads.length > 0 && (
+              <Pagination
+                currentPage={pagination.currentPage}
+                totalPages={pagination.totalPages}
+              />
             )}
           </div>
         </div>

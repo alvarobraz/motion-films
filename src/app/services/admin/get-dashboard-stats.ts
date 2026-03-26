@@ -1,12 +1,26 @@
-// src/app/services/admin/get-dashboard-stats.ts
 import { prisma } from '@/lib/prisma';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
-export async function getDashboardStats() {
-  const leads = await prisma.lead.findMany({
-    include: { customer: true },
-    orderBy: { createdAt: 'desc' },
+export const dynamic = 'force-dynamic';
+
+export async function getDashboardStats(pageParam: number = 1) {
+  const page = Math.max(1, pageParam);
+  const pageSize = 5;
+  const skip = (page - 1) * pageSize;
+
+  const [leads, totalCount] = await Promise.all([
+    prisma.lead.findMany({
+      include: { customer: true },
+      orderBy: { createdAt: 'desc' },
+      skip: skip,
+      take: pageSize,
+    }),
+    prisma.lead.count(),
+  ]);
+
+  const allLeadsForChart = await prisma.lead.findMany({
+    select: { createdAt: true },
   });
 
   const last7Days = Array.from({ length: 7 })
@@ -18,7 +32,7 @@ export async function getDashboardStats() {
     .reverse();
 
   const chartData = last7Days.map((dateStr) => {
-    const count = leads.filter(
+    const count = allLeadsForChart.filter(
       (lead) => format(new Date(lead.createdAt), 'yyyy-MM-dd') === dateStr
     ).length;
 
@@ -28,16 +42,15 @@ export async function getDashboardStats() {
     };
   });
 
-  const contactedCount = leads.filter((l) => l.status === 'CONTACTED').length;
-  const conversionRate = Math.round((contactedCount / leads.length) * 100 || 0);
+  const totalPages = Math.ceil(totalCount / pageSize);
 
   return {
     leads,
     chartData,
-    stats: {
-      total: leads.length,
-      contactedCount,
-      conversionRate,
+    pagination: {
+      totalCount,
+      totalPages,
+      currentPage: page,
     },
   };
 }
