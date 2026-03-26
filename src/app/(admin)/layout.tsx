@@ -1,5 +1,4 @@
-import { LogoutButton } from '@/app/components/ui/logout-button';
-import React from 'react'; // Adicione se o seu ambiente exigir, mas geralmente não é necessário no Next 14
+import React from 'react';
 
 interface AdminLayoutProps {
   children: React.ReactNode;
