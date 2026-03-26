@@ -21,6 +21,7 @@ export async function createLeadAction(data: z.infer<typeof leadSchema>) {
       data: {
         requirement: validated.requirement,
         message: validated.message,
+        status: 'PENDING',
         customer: {
           connectOrCreate: {
             where: { email: validated.email },

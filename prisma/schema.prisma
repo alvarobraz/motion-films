@@ -24,15 +24,16 @@ model Customer {
   name  String
   email String @unique
   phone String @unique
-  leads Lead[]
+  lead  Lead?
 }
 
 model Lead {
-  id          String   @id @default(cuid())
+  id          String     @id @default(cuid())
   requirement String
   message     String
-  createdAt   DateTime @default(now())
+  status      LeadStatus @default(PENDING)
+  createdAt   DateTime   @default(now())
 
-  customerId String
-  customer   Customer @relation(fields: [customerId], references: [id])
+  customerId String   @unique
+  customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
 }
