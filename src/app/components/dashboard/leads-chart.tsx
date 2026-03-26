@@ -59,7 +59,12 @@ export function LeadsChart({ data }: LeadsChartProps) {
               fontSize: '12px',
             }}
           />
-          <Bar dataKey="count" radius={[8, 8, 0, 0]}>
+          <Bar
+            dataKey="count"
+            radius={[8, 8, 0, 0]}
+            fill="#ffffff"
+            name="Leads"
+          >
             {data.map((entry, index) => (
               <Cell
                 key={`cell-${index}`}

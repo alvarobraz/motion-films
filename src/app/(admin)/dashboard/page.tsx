@@ -1,34 +1,12 @@
 import { LogoutButton } from '@/app/components/ui/logout-button';
 import { LeadActionsButtons } from '@/app/components/dashboard/ui/lead-actions-buttons';
 import { LeadsChart } from '@/app/components/dashboard/leads-chart';
-import { prisma } from '@/lib/prisma';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+import { getDashboardStats } from '@/app/services/admin/get-dashboard-stats';
 
 export default async function DashboardPage() {
-  const leads = await prisma.lead.findMany({
-    include: { customer: true },
-    orderBy: { createdAt: 'desc' },
-  });
-
-  const last7Days = Array.from({ length: 7 })
-    .map((_, i) => {
-      const date = new Date();
-      date.setDate(date.getDate() - i);
-      return format(date, 'yyyy-MM-dd');
-    })
-    .reverse();
-
-  const chartData = last7Days.map((dateStr) => {
-    const count = leads.filter(
-      (lead) => format(new Date(lead.createdAt), 'yyyy-MM-dd') === dateStr
-    ).length;
-
-    return {
-      date: format(new Date(dateStr), 'dd/MM', { locale: ptBR }),
-      count,
-    };
-  });
+  const { leads, chartData } = await getDashboardStats();
 
   return (
     <div className="flex flex-col gap-8 py-4">
