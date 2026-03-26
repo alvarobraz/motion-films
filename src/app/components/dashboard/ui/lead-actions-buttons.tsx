@@ -8,7 +8,6 @@ import {
   ArchiveRestore,
 } from 'lucide-react';
 import { useLeadActions } from '@/app/hooks/use-lead-actions';
-import { useState } from 'react';
 import { ConfirmModal } from './confirm-modal';
 
 interface LeadActionsProps {
@@ -20,9 +19,6 @@ export function LeadActionsButtons({
   leadId,
   currentStatus,
 }: LeadActionsProps) {
-  // const [isModalOpen, setIsModalOpen] = useState(false);
-  // const [isDeleting, setIsDeleting] = useState(false);
-
   const {
     handleStatusToggle,
     handleArchiveToggle,
@@ -35,20 +31,6 @@ export function LeadActionsButtons({
   } = useLeadActions({ leadId, currentStatus });
 
   const isAnyActionLoading = isDeleting || isUpdating || isArchiving;
-
-  // async function handleDelete() {
-  //   setIsDeleting(true);
-  //   try {
-  //     // Sua chamada de API aqui
-  //     // await deleteLeadAction(leadId);
-  //     setIsModalOpen(false);
-  //     // O ideal é usar o router.refresh() do Next aqui para atualizar a lista
-  //   } catch (error) {
-  //     console.error(error);
-  //   } finally {
-  //     setIsDeleting(false);
-  //   }
-  // }
 
   return (
     <div className="flex items-center gap-2 opacity-0 transition-opacity group-hover:opacity-100">
