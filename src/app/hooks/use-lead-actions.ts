@@ -16,17 +16,25 @@ export function useLeadActions({ leadId, currentStatus }: UseLeadActionsProps) {
   const [isDeleting, setIsDeleting] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
   const [isArchiving, setIsArchiving] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   async function handleDelete() {
-    if (!confirm('Tem certeza que deseja excluir este lead?')) return;
-
     setIsDeleting(true);
-    const result = await deleteLeadAction(leadId);
+    try {
+      const result = await deleteLeadAction(leadId);
 
-    if (result.success) toast.success('Lead removido!');
-    else toast.error(result.message);
+      if (result.success) toast.success('Lead removido!');
+      else toast.error(result.message);
 
-    setIsDeleting(false);
+      setIsDeleting(false);
+      setIsModalOpen(false);
+      // O ideal é usar o router.refresh() do Next aqui para atualizar a lista
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsDeleting(false);
+      setIsModalOpen(false);
+    }
   }
 
   async function handleStatusToggle() {
@@ -60,9 +68,11 @@ export function useLeadActions({ leadId, currentStatus }: UseLeadActionsProps) {
     handleDelete,
     handleStatusToggle,
     handleArchiveToggle,
+    setIsModalOpen,
     isLoading: isDeleting || isUpdating || isArchiving,
     isDeleting,
     isUpdating,
     isArchiving,
+    isModalOpen,
   };
 }

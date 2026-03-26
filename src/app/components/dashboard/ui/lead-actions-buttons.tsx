@@ -8,6 +8,8 @@ import {
   ArchiveRestore,
 } from 'lucide-react';
 import { useLeadActions } from '@/app/hooks/use-lead-actions';
+import { useState } from 'react';
+import { ConfirmModal } from './confirm-modal';
 
 interface LeadActionsProps {
   leadId: string;
@@ -18,16 +20,35 @@ export function LeadActionsButtons({
   leadId,
   currentStatus,
 }: LeadActionsProps) {
+  // const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [isDeleting, setIsDeleting] = useState(false);
+
   const {
-    handleDelete,
     handleStatusToggle,
     handleArchiveToggle,
-    isDeleting,
+    handleDelete,
+    setIsModalOpen,
+    isModalOpen,
     isUpdating,
     isArchiving,
+    isDeleting,
   } = useLeadActions({ leadId, currentStatus });
 
   const isAnyActionLoading = isDeleting || isUpdating || isArchiving;
+
+  // async function handleDelete() {
+  //   setIsDeleting(true);
+  //   try {
+  //     // Sua chamada de API aqui
+  //     // await deleteLeadAction(leadId);
+  //     setIsModalOpen(false);
+  //     // O ideal é usar o router.refresh() do Next aqui para atualizar a lista
+  //   } catch (error) {
+  //     console.error(error);
+  //   } finally {
+  //     setIsDeleting(false);
+  //   }
+  // }
 
   return (
     <div className="flex items-center gap-2 opacity-0 transition-opacity group-hover:opacity-100">
@@ -71,16 +92,20 @@ export function LeadActionsButtons({
 
       {/* Botão de Excluir */}
       <button
-        onClick={handleDelete}
-        disabled={isAnyActionLoading}
-        className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/5 bg-zinc-800 text-zinc-400 transition-colors hover:bg-red-500/10 hover:text-red-500"
+        onClick={() => setIsModalOpen(true)}
+        className="rounded-lg p-2 text-zinc-500 transition-all hover:bg-red-500/10 hover:text-red-500"
       >
-        {isDeleting ? (
-          <Loader2 size={14} className="animate-spin" />
-        ) : (
-          <Trash2 size={14} />
-        )}
+        <Trash2 size={18} />
       </button>
+
+      <ConfirmModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onConfirm={handleDelete}
+        isLoading={isDeleting}
+        title="Excluir Lead"
+        description="Tem certeza que deseja remover este lead? Esta ação não pode ser desfeita."
+      />
     </div>
   );
 }
