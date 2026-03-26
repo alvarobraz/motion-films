@@ -1,19 +1,31 @@
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { jwtVerify } from 'jose';
 
-export async function middleware(req: NextRequest) {
-  const token = req.cookies.get('auth_token')?.value;
+export async function middleware(request: NextRequest) {
+  const token = request.cookies.get('auth_token')?.value;
+  const { pathname } = request.nextUrl;
 
-  if (req.nextUrl.pathname.startsWith('/dashboard')) {
-    if (!token) return NextResponse.redirect(new URL('/login', req.url));
+  if (pathname === '/login' && token) {
+    return NextResponse.redirect(new URL('/dashboard', request.url));
+  }
+
+  if (pathname.startsWith('/dashboard')) {
+    if (!token) {
+      return NextResponse.redirect(new URL('/login', request.url));
+    }
 
     try {
       const secret = new TextEncoder().encode(process.env.JWT_SECRET);
       await jwtVerify(token, secret);
       return NextResponse.next();
-    } catch (e) {
-      return NextResponse.redirect(new URL('/login', req.url));
+    } catch (err) {
+      return NextResponse.redirect(new URL('/login', request.url));
     }
   }
+
+  return NextResponse.next();
 }
+
+export const config = {
+  matcher: ['/dashboard/:path*', '/login'],
+};
