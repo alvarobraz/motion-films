@@ -1,16 +1,11 @@
 'use client';
 
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { toast } from 'sonner';
 import { Loader2 } from 'lucide-react';
-
-import { leadSchema, LeadInput } from '@/lib/schemas';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
-import { createLeadAction } from '@/app/actions/create-lead';
 import { SelectInput } from '../ui/select-input';
+import { useContactForm } from '@/app/hooks/use-contact-form';
 
 const necessityOptions = [
   { value: 'institucional', label: 'Vídeo Institucional' },
@@ -21,29 +16,7 @@ const necessityOptions = [
 ];
 
 export function ContactForm() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-    reset,
-  } = useForm<LeadInput>({
-    resolver: zodResolver(leadSchema),
-  });
-
-  async function onSubmit(data: LeadInput) {
-    const result = await createLeadAction(data);
-
-    if (result.success) {
-      toast.success('Briefing enviado com sucesso!', {
-        description: 'Nossa equipe de produção entrará em contato em breve.',
-      });
-      reset();
-    } else {
-      toast.error('Ocorreu um problema', {
-        description: result.message,
-      });
-    }
-  }
+  const { register, onSubmit, errors, isSubmitting } = useContactForm();
 
   return (
     <section id="contato" className="bg-zinc-900 px-4 py-24">
@@ -60,14 +33,14 @@ export function ContactForm() {
           </div>
 
           {/* Lado Direito: Formulário */}
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <form onSubmit={onSubmit} className="space-y-4">
             <Input
               {...register('name')}
               placeholder="Nome completo"
               error={errors.name?.message}
             />
 
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-1">
+            <div className="grid grid-cols-1 gap-4">
               <Input
                 {...register('email')}
                 placeholder="E-mail"
