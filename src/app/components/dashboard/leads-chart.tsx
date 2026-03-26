@@ -24,7 +24,7 @@ export function LeadsChart({ data }: LeadsChartProps) {
       <div className="mb-6">
         <h3 className="text-lg font-bold text-white">Leads por Dia</h3>
         <p className="text-xs text-zinc-500">
-          Volume de solicitações nos últimos dias
+          Volume de solicitações nos últimos 7 dias
         </p>
       </div>
 

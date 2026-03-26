@@ -112,7 +112,7 @@ export default async function DashboardPage({ searchParams }: PageProps) {
           <LeadsChart data={chartData} />
           <div className="w-full rounded-xl border border-white/5 bg-zinc-900 p-6 shadow-sm">
             <h4 className="mb-4 text-xs font-bold tracking-widest text-zinc-500 uppercase">
-              Conversão
+              Conversão desta página
             </h4>
             <div className="flex items-end gap-2">
               <span className="text-primary text-4xl font-black">

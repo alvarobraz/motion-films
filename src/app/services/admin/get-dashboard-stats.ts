@@ -47,6 +47,7 @@ export async function getDashboardStats(pageParam: number = 1) {
   return {
     leads,
     chartData,
+    allLeadsForChart,
     pagination: {
       totalCount,
       totalPages,
