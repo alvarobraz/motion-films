@@ -28,7 +28,6 @@ export function useLeadActions({ leadId, currentStatus }: UseLeadActionsProps) {
 
       setIsDeleting(false);
       setIsModalOpen(false);
-      // O ideal é usar o router.refresh() do Next aqui para atualizar a lista
     } catch (error) {
       console.error(error);
     } finally {
