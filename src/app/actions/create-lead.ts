@@ -13,7 +13,6 @@ const leadSchema = z.object({
 });
 
 export async function createLeadAction(data: z.infer<typeof leadSchema>) {
-  console.log('Dados recebidos na Action:', data);
   try {
     const validated = leadSchema.parse(data);
 

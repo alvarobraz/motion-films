@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import {
   CheckCircle2,
   Trash2,
@@ -8,11 +7,7 @@ import {
   Archive,
   ArchiveRestore,
 } from 'lucide-react';
-import { toast } from 'sonner';
-import {
-  deleteLeadAction,
-  updateLeadStatusAction,
-} from '@/app/actions/lead-actions';
+import { useLeadActions } from '@/app/hooks/use-lead-actions';
 
 interface LeadActionsProps {
   leadId: string;
@@ -23,57 +18,28 @@ export function LeadActionsButtons({
   leadId,
   currentStatus,
 }: LeadActionsProps) {
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [isUpdating, setIsUpdating] = useState(false);
-  const [isArchiving, setIsArchiving] = useState(false);
+  const {
+    handleDelete,
+    handleStatusToggle,
+    handleArchiveToggle,
+    isDeleting,
+    isUpdating,
+    isArchiving,
+  } = useLeadActions({ leadId, currentStatus });
 
-  async function handleDelete() {
-    if (!confirm('Tem certeza que deseja excluir este lead?')) return;
-
-    setIsDeleting(true);
-    const result = await deleteLeadAction(leadId);
-    if (result.success) toast.success('Lead removido!');
-    else toast.error(result.message);
-    setIsDeleting(false);
-  }
-
-  async function handleStatus() {
-    setIsUpdating(true);
-
-    const nextStatus = currentStatus === 'CONTACTED' ? 'PENDING' : 'CONTACTED';
-    const result = await updateLeadStatusAction(leadId, nextStatus);
-
-    if (result.success) toast.success('Status atualizado!');
-    else toast.error(result.message);
-    setIsUpdating(false);
-  }
-
-  async function handleArchive() {
-    setIsArchiving(true);
-    const nextStatus = currentStatus === 'ARCHIVED' ? 'PENDING' : 'ARCHIVED';
-    const result = await updateLeadStatusAction(leadId, nextStatus);
-
-    if (result.success) {
-      toast.success(
-        nextStatus === 'ARCHIVED' ? 'Lead arquivado!' : 'Lead restaurado!'
-      );
-    } else {
-      toast.error(result.message);
-    }
-    setIsArchiving(false);
-  }
+  const isAnyActionLoading = isDeleting || isUpdating || isArchiving;
 
   return (
     <div className="flex items-center gap-2 opacity-0 transition-opacity group-hover:opacity-100">
       {/* Botão de Contato */}
       <button
-        onClick={handleStatus}
-        disabled={isUpdating || isArchiving}
+        onClick={handleStatusToggle}
+        disabled={isAnyActionLoading}
         className={`flex items-center gap-2 rounded-lg px-3 py-2 text-[10px] font-bold tracking-wider uppercase transition-colors ${
           currentStatus === 'CONTACTED'
             ? 'border border-emerald-500/20 bg-emerald-500/10 text-emerald-500'
             : 'border border-white/5 bg-zinc-800 text-zinc-400 hover:bg-zinc-700'
-        } ${currentStatus === 'ARCHIVED' && 'opacity-50 grayscale'}`}
+        } ${currentStatus === 'ARCHIVED' && 'cursor-not-allowed opacity-50 grayscale'}`}
       >
         {isUpdating ? (
           <Loader2 size={14} className="animate-spin" />
@@ -85,8 +51,8 @@ export function LeadActionsButtons({
 
       {/* Botão de Arquivar */}
       <button
-        onClick={handleArchive}
-        disabled={isArchiving || isUpdating}
+        onClick={handleArchiveToggle}
+        disabled={isAnyActionLoading}
         title={currentStatus === 'ARCHIVED' ? 'Restaurar' : 'Arquivar'}
         className={`flex h-9 w-9 items-center justify-center rounded-lg border border-white/5 transition-colors ${
           currentStatus === 'ARCHIVED'
@@ -106,7 +72,7 @@ export function LeadActionsButtons({
       {/* Botão de Excluir */}
       <button
         onClick={handleDelete}
-        disabled={isDeleting}
+        disabled={isAnyActionLoading}
         className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/5 bg-zinc-800 text-zinc-400 transition-colors hover:bg-red-500/10 hover:text-red-500"
       >
         {isDeleting ? (
