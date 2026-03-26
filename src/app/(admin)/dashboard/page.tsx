@@ -1,5 +1,5 @@
-import { prisma } from '@/lib/prisma';
 import { LogoutButton } from '@/app/components/ui/logout-button';
+import { prisma } from '@/lib/prisma';
 
 export default async function DashboardPage() {
   const leads = await prisma.lead.findMany({
@@ -8,38 +8,40 @@ export default async function DashboardPage() {
   });
 
   return (
-    <div className="min-h-screen bg-zinc-950 p-8 text-white">
-      <header className="mb-10 flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold">
-            Leads{' '}
-            <span className="text-primary text-sm font-normal">
-              Motin Films
-            </span>
-          </h1>
-          <p className="mt-1 font-mono text-xs tracking-widest text-zinc-500 uppercase">
-            Painel Administrativo
-          </p>
-        </div>
-
-        <div className="flex items-center gap-4">
-          <div className="hidden rounded-full border border-white/10 bg-zinc-800 px-4 py-2 font-mono text-xs text-zinc-400 sm:block">
-            Admin Mode
+    <div className="flex flex-col gap-2 py-4">
+      <div className="mb-12">
+        <section className="flex items-center justify-between">
+          <div>
+            <h2 className="text-3xl font-bold tracking-tight italic">
+              LEADS{' '}
+              <span className="text-primary text-sm font-normal not-italic">
+                ({leads.length})
+              </span>
+            </h2>
+            <p className="mt-1 text-sm text-zinc-500">
+              Gerencie as solicitações de orçamento recebidas.
+            </p>
           </div>
-          <LogoutButton />
-        </div>
-      </header>
 
-      <div className="grid gap-4">
+          <div className="flex items-center gap-4">
+            <div className="hidden rounded-full border border-white/10 bg-zinc-800/50 px-3 py-1 font-mono text-[10px] text-zinc-400 sm:block">
+              Admin Mode
+            </div>
+            <LogoutButton />
+          </div>
+        </section>
+      </div>
+
+      <div className="mt-5 grid gap-4">
         {leads.length === 0 ? (
           <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-white/10 py-20">
-            <p className="text-zinc-500">Nenhum lead recebido ainda.</p>
+            <p className="text-zinc-500 italic">Nenhum lead recebido ainda.</p>
           </div>
         ) : (
           leads.map((lead) => (
             <div
               key={lead.id}
-              className="hover:border-primary/30 group rounded-xl border border-white/5 bg-zinc-900 p-6 transition-colors"
+              className="hover:border-primary/30 group rounded-xl border border-white/5 bg-zinc-900 p-6 transition-all hover:bg-zinc-900/50"
             >
               <div className="mb-4 flex items-start justify-between">
                 <div>
@@ -61,10 +63,10 @@ export default async function DashboardPage() {
                 </p>
               </div>
 
-              <div className="flex items-center justify-between text-[10px] font-medium text-zinc-600 uppercase">
-                <span>Motion Lead ID: {lead.id.split('-')}</span>
+              <div className="flex items-center justify-between text-[10px] font-medium tracking-wider text-zinc-600 uppercase">
+                <span>ID: {lead.id.split('-')}</span>
                 <span>
-                  Recebido em:{' '}
+                  Recebido:{' '}
                   {new Date(lead.createdAt).toLocaleDateString('pt-BR', {
                     day: '2-digit',
                     month: '2-digit',

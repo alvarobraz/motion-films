@@ -1,9 +1,17 @@
 import { prisma } from '../src/lib/prisma';
 import bcrypt from 'bcryptjs';
 
+const necessityOptions = [
+  'Vídeo Institucional',
+  'Comercial / Publicidade',
+  'Conteúdo para Redes Sociais',
+  'Cobertura de Evento',
+  'Documentário / Storytelling',
+];
+
 async function main() {
-  const adminEmail = 'alvaro@motionfilms.com.br';
-  const adminPassword = 'Admin@Motion2026';
+  const adminEmail = 'admin@motionfilms.com.br';
+  const adminPassword = '1234567';
 
   await prisma.user.deleteMany({
     where: { email: adminEmail },
@@ -18,6 +26,32 @@ async function main() {
       password: hashedPassword,
     },
   });
+
+  for (let i = 1; i <= 50; i++) {
+    const name = `Cliente Teste ${i}`;
+    const email = `contato${i}@exemplo.com.br`;
+
+    await prisma.lead.create({
+      data: {
+        requirement:
+          necessityOptions[Math.floor(Math.random() * necessityOptions.length)],
+        message: `Olá, gostaria de um orçamento para um projeto de ${i} minutos. Este é um lead de teste gerado automaticamente para validar o layout do dashboard da Motin Films.`,
+        createdAt: new Date(
+          Date.now() - Math.floor(Math.random() * 1000000000)
+        ),
+        customer: {
+          connectOrCreate: {
+            where: { email: email },
+            create: {
+              name: name,
+              email: email,
+              phone: `(41) 99999-${i.toString().padStart(4, '0')}`,
+            },
+          },
+        },
+      },
+    });
+  }
 }
 
 main()
