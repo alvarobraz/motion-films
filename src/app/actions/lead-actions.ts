@@ -20,7 +20,7 @@ export async function updateLeadStatusAction(
   try {
     await prisma.lead.update({
       where: { id },
-      data: { status }, // Certifique-se que o enum existe no seu schema.prisma
+      data: { status },
     });
     revalidatePath('/dashboard');
     return { success: true };

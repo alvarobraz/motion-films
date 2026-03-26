@@ -1,16 +1,9 @@
 'use server';
 
 import { prisma } from '@/lib/prisma';
+import { leadSchema } from '@/lib/schemas';
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
-
-const leadSchema = z.object({
-  name: z.string().min(3, 'Nome muito curto'),
-  email: z.string().email('E-mail inválido'),
-  phone: z.string().min(10, 'Telefone inválido'),
-  requirement: z.string().min(1, 'Selecione uma necessidade'),
-  message: z.string().min(10, 'Conte um pouco mais sobre o projeto'),
-});
 
 export async function createLeadAction(data: z.infer<typeof leadSchema>) {
   try {

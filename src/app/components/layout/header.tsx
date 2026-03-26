@@ -45,6 +45,7 @@ export function Header() {
               {item}
             </Link>
           ))}
+          <Link href="login">Login</Link>
 
           <Button variant="brand" size="sm" asChild>
             <Link href="#contato">Orçamento</Link>
