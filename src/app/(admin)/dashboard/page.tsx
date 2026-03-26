@@ -5,9 +5,10 @@ import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { getDashboardStats } from '@/app/services/admin/get-dashboard-stats';
 import { Pagination } from '@/app/components/dashboard/ui/Pagination';
+import { SearchLeads } from '@/app/components/dashboard/ui/search-leads';
 
 interface PageProps {
-  searchParams: Promise<{ page?: string }>;
+  searchParams: Promise<{ page?: string; q?: string }>;
 }
 
 export const dynamic = 'force-dynamic';
@@ -16,7 +17,12 @@ export const revalidate = 0;
 export default async function DashboardPage({ searchParams }: PageProps) {
   const params = await searchParams;
   const currentPage = Math.max(1, Number(params.page) || 1);
-  const { leads, chartData, pagination } = await getDashboardStats(currentPage);
+  const query = params.q || '';
+
+  const { leads, chartData, pagination } = await getDashboardStats(
+    currentPage,
+    query
+  );
 
   return (
     <div className="flex flex-col gap-8 py-4">
@@ -32,6 +38,11 @@ export default async function DashboardPage({ searchParams }: PageProps) {
         </div>
         <LogoutButton />
       </section>
+
+      {/* Search */}
+      <div className="flex flex-col items-center justify-between gap-4 lg:flex-row">
+        <SearchLeads />
+      </div>
 
       {/* List leads */}
       <div className="flex w-full flex-col gap-8 sm:flex-row md:flex-row lg:flex-row">
