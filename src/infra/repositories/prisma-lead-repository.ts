@@ -3,6 +3,7 @@ import { prisma } from '@/lib/prisma';
 import {
   ILeadRepository,
   CreateLeadDTO,
+  LeadStatus,
 } from '@/domain/repositories/lead-repository';
 
 export class PrismaLeadRepository implements ILeadRepository {
@@ -35,6 +36,21 @@ export class PrismaLeadRepository implements ILeadRepository {
           },
         },
       },
+    });
+  }
+
+  async findById(id: string) {
+    return await prisma.lead.findUnique({ where: { id } });
+  }
+
+  async delete(id: string): Promise<void> {
+    await prisma.lead.delete({ where: { id } });
+  }
+
+  async updateStatus(id: string, status: LeadStatus): Promise<void> {
+    await prisma.lead.update({
+      where: { id },
+      data: { status },
     });
   }
 }
