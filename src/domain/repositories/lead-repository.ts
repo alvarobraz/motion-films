@@ -18,6 +18,21 @@ export interface DashboardStats {
   };
 }
 
+export interface LeadCustomer {
+  name: string;
+  email: string;
+  phone: string;
+}
+
+export interface LeadWithCustomer {
+  id: string;
+  requirement: string;
+  message: string;
+  status: 'PENDING' | 'CONTACTED' | 'ARCHIVED';
+  createdAt: Date | string;
+  customer: LeadCustomer;
+}
+
 export interface ILeadRepository {
   create(data: CreateLeadDTO): Promise<void>;
   findByEmail(email: string): Promise<Lead | null>;
@@ -29,7 +44,7 @@ export interface ILeadRepository {
     skip: number,
     take: number,
     query?: string
-  ): Promise<{ leads: Lead[]; total: number }>;
+  ): Promise<{ leads: LeadWithCustomer[]; total: number }>;
   findAllCreatedAt(): Promise<{ createdAt: Date }[]>;
 }
 export { LeadStatus };

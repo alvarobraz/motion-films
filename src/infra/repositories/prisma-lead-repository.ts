@@ -4,6 +4,7 @@ import {
   ILeadRepository,
   CreateLeadDTO,
   LeadStatus,
+  LeadWithCustomer,
 } from '@/domain/repositories/lead-repository';
 
 export class PrismaLeadRepository implements ILeadRepository {
@@ -83,7 +84,7 @@ export class PrismaLeadRepository implements ILeadRepository {
       prisma.lead.count({ where }),
     ]);
 
-    return { leads, total };
+    return { leads: leads as LeadWithCustomer[], total };
   }
 
   async findAllCreatedAt() {
