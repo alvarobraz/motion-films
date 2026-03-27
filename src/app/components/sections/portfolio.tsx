@@ -11,7 +11,7 @@ const projects = [
     category: 'Institucional',
     description:
       'Filme Institucional produzido para a Unifateb e o Colégio Dom Bosco...',
-    image: '/projects/unifateb.jpg',
+    image: '/projects/unifateb.webp',
   },
   {
     id: 2,
@@ -19,14 +19,14 @@ const projects = [
     category: 'Produto',
     description:
       'Filme produzido para a LJ Santos, destacando sua linha de cromagem...',
-    image: '/projects/lj-santos-a.jpg',
+    image: '/projects/lj-santos-a.webp',
   },
   {
     id: 3,
     title: 'BioBio Cosméticos - Only One',
     category: 'Produto',
     description: 'Lançamento do produto Only One da BioBio Cosméticos...',
-    image: '/projects/biobio.jpg',
+    image: '/projects/biobio.webp',
   },
 ];
 

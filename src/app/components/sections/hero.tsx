@@ -10,7 +10,7 @@ export function Hero() {
           muted
           loop
           playsInline
-          poster="/hero-bg.jpg"
+          poster="/hero-bg.webp"
           className="hero-video-overlay h-full w-full"
         >
           <source src="/hero-video.mp4" type="video/mp4" />
