@@ -10,12 +10,12 @@ export default function LoginPage() {
   const { register, onSubmit, errors, isSubmitting } = useLogin();
 
   return (
-    <main className="relative mx-7 flex min-h-screen items-center justify-center bg-zinc-950 px-4">
+    <main className="bg-background-alt relative flex min-h-screen items-center justify-center px-4">
       <div className="flex w-full max-w-md flex-col items-center space-y-8">
         {/* Logo */}
         <Link
           href="/"
-          className="text-2xl font-bold tracking-tighter text-white"
+          className="text-foreground text-2xl font-bold tracking-tighter"
         >
           MOTIN<span className="text-primary">FILMS</span>
         </Link>
@@ -25,17 +25,17 @@ export default function LoginPage() {
             <div className="text-primary mx-auto mb-1 flex h-14 w-14 items-center justify-center rounded-full">
               <Lock size={28} />
             </div>
-            <h2 className="mb-2 text-3xl font-bold text-white">
+            <h2 className="text-foreground mb-2 text-3xl font-bold">
               Área <span className="text-primary">Restrita</span>
             </h2>
-            <p className="text-base text-zinc-400">
+            <p className="text-text-body text-base">
               Identifique-se para acessar o painel.
             </p>
           </div>
 
           <form
             onSubmit={onSubmit}
-            className="space-y-4 rounded-2xl border border-white/5 bg-zinc-900/50 p-8 shadow-xl"
+            className="border-border-subtle bg-surface/50 space-y-4 rounded-2xl border p-8 shadow-xl"
           >
             <Input
               {...register('email')}
@@ -70,7 +70,7 @@ export default function LoginPage() {
             </Button>
 
             <div className="pt-2 text-center">
-              <p className="text-[10px] tracking-widest text-zinc-600 uppercase">
+              <p className="text-text-legal text-[10px] tracking-widest uppercase">
                 Motion Films &copy; 2026
               </p>
             </div>
