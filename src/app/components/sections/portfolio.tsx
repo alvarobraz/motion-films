@@ -31,7 +31,7 @@ const projects = [
 
 export function Portfolio() {
   return (
-    <section id="portfolio" className="bg-zinc-950 px-4 py-24">
+    <section id="portfolio" className="bg-background-alt px-4 py-24">
       <div className="container mx-auto">
         {/* Header da Section */}
         <motion.div {...fadeInUp} className="mb-16 text-center">
@@ -39,10 +39,10 @@ export function Portfolio() {
             <span className="bg-primary h-1.5 w-1.5 animate-pulse rounded-full" />
             Portfólio
           </span>
-          <h2 className="mb-4 text-4xl font-bold tracking-tight text-white md:text-5xl">
+          <h2 className="text-foreground mb-4 text-4xl font-bold tracking-tight md:text-5xl">
             Nossos <span className="text-primary italic">Trabalhos</span>
           </h2>
-          <p className="mx-auto max-w-2xl text-zinc-500">
+          <p className="text-text-muted mx-auto max-w-2xl">
             Confira alguns dos nossos projetos recentes e sinta a qualidade
             cinematográfica em cada frame.
           </p>
@@ -63,9 +63,8 @@ export function Portfolio() {
             <motion.div
               key={project.id}
               variants={fadeInUp}
-              className="group hover:border-primary/30 flex flex-col overflow-hidden rounded-2xl border border-white/5 bg-zinc-900/50 transition-all"
+              className="group hover:border-primary/30 bg-surface/50 border-border-subtle flex flex-col overflow-hidden rounded-2xl border transition-all"
             >
-              {/* Thumbnail com Overlay */}
               <div className="relative aspect-video w-full overflow-hidden">
                 <Image
                   src={project.image}
@@ -73,7 +72,7 @@ export function Portfolio() {
                   fill
                   className="object-cover brightness-75 transition-transform duration-500 group-hover:scale-110 group-hover:brightness-100"
                 />
-                <div className="absolute inset-0 bg-linear-to-t from-zinc-950/80 to-transparent" />
+                <div className="from-background-alt/80 absolute inset-0 bg-linear-to-t to-transparent" />
               </div>
 
               {/* Conteúdo inferior */}
@@ -81,10 +80,10 @@ export function Portfolio() {
                 <span className="bg-primary/10 text-primary w-fit rounded-lg px-3 py-1 text-[10px] font-bold tracking-wider uppercase">
                   {project.category}
                 </span>
-                <h3 className="text-lg font-bold text-zinc-100">
+                <h3 className="text-text-title text-lg font-bold">
                   {project.title}
                 </h3>
-                <p className="line-clamp-2 text-sm leading-relaxed text-zinc-500 italic">
+                <p className="text-text-muted line-clamp-2 text-sm leading-relaxed italic">
                   &quot;{project.description}&quot;
                 </p>
               </div>

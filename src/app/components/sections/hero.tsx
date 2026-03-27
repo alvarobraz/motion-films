@@ -15,7 +15,7 @@ export function Hero() {
           loop
           playsInline
           poster="/hero-bg.jpg"
-          className="h-full w-full object-cover brightness-[0.4]"
+          className="hero-video-overlay h-full w-full"
         >
           <source src="/hero-video.mp4" type="video/mp4" />
           Seu navegador não suporta vídeos.
@@ -25,7 +25,7 @@ export function Hero() {
       {/* Conteúdo da Hero */}
       <div className="relative z-10 container px-4 text-center">
         <motion.div {...fadeInUp}>
-          <h1 className="mb-6 text-4xl font-bold tracking-tight text-white md:text-7xl">
+          <h1 className="text-foreground mb-6 text-4xl font-bold tracking-tight md:text-7xl">
             Filmes de alto impacto <br />
             <span className="text-primary">com qualidade</span>
             <br />
@@ -46,7 +46,7 @@ export function Hero() {
 
       {/* Scroll Indicator */}
       <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
-        <div className="flex h-10 w-6 justify-center rounded-full border-2 border-white/30 pt-2">
+        <div className="border-border-muted flex h-10 w-6 justify-center rounded-full border-2 pt-2">
           <div className="h-2 w-1 rounded-full bg-white" />
         </div>
       </div>

@@ -19,15 +19,15 @@ export function ContactForm() {
   const { register, onSubmit, errors, isSubmitting } = useContactForm();
 
   return (
-    <section id="contato" className="bg-zinc-900 px-4 py-24">
+    <section id="contato" className="bg-background px-4 py-24">
       <div className="container mx-auto max-w-4xl">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-2">
           {/* Lado Esquerdo: Info */}
           <div>
-            <h2 className="mb-6 text-4xl font-bold text-white">
+            <h2 className="text-foreground mb-6 text-4xl font-bold">
               Pronto para o <span className="text-primary">próximo nível?</span>
             </h2>
-            <p className="mb-8 text-lg text-zinc-400">
+            <p className="text-text-body mb-8 text-lg">
               Deixe seus dados e vamos transformar sua visão em cinema.
             </p>
           </div>

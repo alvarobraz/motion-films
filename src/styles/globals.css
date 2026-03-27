@@ -1,21 +1,35 @@
 @import 'tailwindcss';
 
 @theme {
-  /* Brand Colors */
+  /*  Brand Colors */
   --color-brand-500: #00a3a3;
   --color-brand-600: #008a8a;
   --color-brand-700: #007070;
 
-  /* Neutrals */
-  --color-zinc-900: #0a0a0a;
-  --color-zinc-800: #18181b;
-  --color-zinc-400: #a1a1aa;
+  /*  Neutrals*/
+  --color-zinc-950: #09090b; /* Fundo de seções alternativas */
+  --color-zinc-900: #0a0a0a; /* Fundo principal (Background) */
+  --color-zinc-800: #18181b; /* Superfícies de cards e inputs */
+  --color-zinc-500: #71717a; /* Textos de suporte e legendas */
+  --color-zinc-400: #a1a1aa; /* Corpo de texto padrão */
+  --color-zinc-300: #d4d4d8; /* Textos levemente destacados */
+  --color-zinc-100: #f4f4f5; /* Títulos secundários */
 
-  /* Aliases */
+  /*  Aliases */
   --color-primary: var(--color-brand-500);
   --color-background: var(--color-zinc-900);
+  --color-background-alt: var(--color-zinc-950);
   --color-surface: var(--color-zinc-800);
+
+  --color-text-title: var(--color-zinc-100);
   --color-text-body: var(--color-zinc-400);
+  --color-text-muted: var(--color-zinc-500);
+  --color-text-dim: var(--color-zinc-300);
+
+  /*  Borders & Overlays  */
+  --color-border-muted: rgba(255, 255, 255, 0.3);
+  --color-border-subtle: rgba(255, 255, 255, 0.05);
+  --color-surface-subtle: rgba(255, 255, 255, 0.05);
 }
 
 :root {
@@ -31,5 +45,9 @@ body {
 }
 
 .glass {
-  @apply border-b border-white/10 bg-black/40 backdrop-blur-md;
+  @apply bg-black/40 backdrop-blur-md;
+}
+
+.hero-video-overlay {
+  @apply object-cover brightness-[0.4];
 }
