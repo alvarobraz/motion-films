@@ -53,4 +53,42 @@ export class PrismaLeadRepository implements ILeadRepository {
       data: { status },
     });
   }
+
+  async findManyWithPagination(skip: number, take: number, query?: string) {
+    const where = query
+      ? {
+          OR: [
+            {
+              customer: {
+                name: { contains: query, mode: 'insensitive' as const },
+              },
+            },
+            {
+              customer: {
+                email: { contains: query, mode: 'insensitive' as const },
+              },
+            },
+          ],
+        }
+      : {};
+
+    const [leads, total] = await Promise.all([
+      prisma.lead.findMany({
+        where,
+        include: { customer: true },
+        orderBy: { createdAt: 'desc' },
+        skip,
+        take,
+      }),
+      prisma.lead.count({ where }),
+    ]);
+
+    return { leads, total };
+  }
+
+  async findAllCreatedAt() {
+    return await prisma.lead.findMany({
+      select: { createdAt: true },
+    });
+  }
 }
