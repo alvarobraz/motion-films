@@ -39,7 +39,15 @@ export function Hero() {
             <Button variant="brand" asChild>
               <Link href="#contato">Orçamento</Link>
             </Button>
-            <Button variant="outline">Ver Portfólio</Button>
+            <Button variant="outline">
+              {' '}
+              <Link
+                href="#portfolio"
+                className="text-text-body hover:text-foreground text-sm font-medium transition-colors"
+              >
+                Ver Portfólio
+              </Link>
+            </Button>
           </div>
         </motion.div>
       </div>

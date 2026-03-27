@@ -2,12 +2,14 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Lock } from 'lucide-react';
+import { Lock, Menu, X } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { Button } from '../ui/button';
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -17,11 +19,14 @@ export function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Fecha o menu ao clicar em um link (âncora)
+  const closeMenu = () => setIsMobileMenuOpen(false);
+
   return (
     <header
       className={cn(
         'fixed top-0 right-0 left-0 z-50 px-6 py-4 transition-all duration-300',
-        isScrolled
+        isScrolled || isMobileMenuOpen
           ? 'bg-background/80 border-border-subtle border-b py-3 backdrop-blur-md'
           : 'bg-transparent'
       )}
@@ -39,13 +44,13 @@ export function Header() {
         <nav className="hidden items-center gap-8 md:flex">
           <Link
             href="/"
-            className="text-sm font-medium text-gray-300 transition-colors hover:text-white"
+            className="text-text-body hover:text-foreground text-sm font-medium transition-colors"
           >
             Início
           </Link>
           <Link
             href="#portfolio"
-            className="text-sm font-medium text-gray-300 transition-colors hover:text-white"
+            className="text-text-body hover:text-foreground text-sm font-medium transition-colors"
           >
             Portfólio
           </Link>
@@ -67,22 +72,56 @@ export function Header() {
         </nav>
 
         {/* Mobile Menu Icon */}
-        <button className="text-foreground md:hidden">
-          <svg
-            className="h-6 w-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M4 6h16M4 12h16m-7 6h7"
-            />
-          </svg>
+        <button
+          className="text-foreground focus:outline-none md:hidden"
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-label="Toggle Menu"
+        >
+          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
+
+      {/* Mobile Navigation Drawer */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="bg-background/95 border-border-subtle absolute top-full left-0 w-full overflow-hidden border-b backdrop-blur-lg md:hidden"
+          >
+            <nav className="flex flex-col space-y-4 px-6 py-8">
+              <Link
+                href="/"
+                onClick={closeMenu}
+                className="text-text-body hover:text-primary text-lg font-medium transition-colors"
+              >
+                Início
+              </Link>
+              <Link
+                href="#portfolio"
+                onClick={closeMenu}
+                className="text-text-body hover:text-primary text-lg font-medium transition-colors"
+              >
+                Portfólio
+              </Link>
+              <Link
+                href="/login"
+                onClick={closeMenu}
+                className="text-text-body hover:text-primary flex items-center gap-2 text-lg font-medium transition-colors"
+              >
+                <Lock size={18} /> Área Restrita
+              </Link>
+              <hr className="border-border-subtle" />
+              <Button variant="brand" size="lg" asChild className="w-full">
+                <Link href="#contato" onClick={closeMenu}>
+                  Solicitar Orçamento
+                </Link>
+              </Button>
+            </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }

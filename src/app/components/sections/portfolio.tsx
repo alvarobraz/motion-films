@@ -34,7 +34,11 @@ export function Portfolio() {
     <section id="portfolio" className="bg-background-alt px-4 py-24">
       <div className="container mx-auto">
         {/* Header da Section */}
-        <motion.div {...fadeInUp} className="mb-16 text-center">
+        <motion.div
+          {...fadeInUp}
+          viewport={{ once: true, amount: 0.1 }}
+          className="mb-16 text-center"
+        >
           <span className="border-primary/20 bg-primary/10 text-primary mb-4 inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-xs font-bold tracking-widest uppercase">
             <span className="bg-primary h-1.5 w-1.5 animate-pulse rounded-full" />
             Portfólio
@@ -52,7 +56,7 @@ export function Portfolio() {
         <motion.div
           initial="initial"
           whileInView="whileInView"
-          viewport={{ once: true }}
+          viewport={{ once: true, amount: 0.1 }}
           variants={{
             initial: {},
             whileInView: { transition: { staggerChildren: 0.2 } },
