@@ -1,0 +1,114 @@
+'use client';
+import Image from 'next/image';
+import { motion } from 'framer-motion';
+
+const projects = [
+  {
+    id: 1,
+    title: 'Unifateb',
+    category: 'Institucional',
+    description:
+      'Filme Institucional produzido para a Unifateb e o Colégio Dom Bosco...',
+    image: '/projects/unifateb.jpg',
+  },
+  {
+    id: 2,
+    title: 'LJ Santos | Linha de Cromagem',
+    category: 'Produto',
+    description:
+      'Filme produzido para a LJ Santos, destacando sua linha de cromagem...',
+    image: '/projects/lj-santos.jpg',
+  },
+  {
+    id: 3,
+    title: 'BioBio Cosméticos - Only One',
+    category: 'Produto',
+    description: 'Lançamento do produto Only One da BioBio Cosméticos...',
+    image: '/projects/biobio.jpg',
+  },
+];
+
+export function Portfolio() {
+  const fadeInUp = {
+    initial: { opacity: 0, y: 30 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true },
+    transition: {
+      duration: 0.6,
+      ease: 'easeOut' as const,
+    },
+  };
+  return (
+    <section id="portfolio" className="bg-zinc-950 px-4 py-24">
+      <div className="container mx-auto">
+        {/* Header da Section */}
+        <motion.div {...fadeInUp} className="mb-16 text-center">
+          <span className="border-primary/20 bg-primary/10 text-primary mb-4 inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-xs font-bold tracking-widest uppercase">
+            <span className="bg-primary h-1.5 w-1.5 animate-pulse rounded-full" />
+            Portfólio
+          </span>
+          <h2 className="mb-4 text-4xl font-bold tracking-tight text-white md:text-5xl">
+            Nossos <span className="text-primary italic">Trabalhos</span>
+          </h2>
+          <p className="mx-auto max-w-2xl text-zinc-500">
+            Confira alguns dos nossos projetos recentes e sinta a qualidade
+            cinematográfica em cada frame.
+          </p>
+        </motion.div>
+
+        {/* Grid de Projetos */}
+        <motion.div
+          initial="initial"
+          whileInView="whileInView"
+          viewport={{ once: true }}
+          variants={{
+            initial: {},
+            whileInView: { transition: { staggerChildren: 0.2 } },
+          }}
+          className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3"
+        >
+          {projects.map((project) => (
+            <motion.div
+              key={project.id}
+              variants={fadeInUp}
+              className="group hover:border-primary/30 flex flex-col overflow-hidden rounded-2xl border border-white/5 bg-zinc-900/50 transition-all"
+            >
+              {/* Thumbnail com Overlay */}
+              <div className="relative aspect-video w-full overflow-hidden">
+                <Image
+                  src={project.image}
+                  alt={project.title}
+                  fill
+                  className="object-cover brightness-75 transition-transform duration-500 group-hover:scale-110 group-hover:brightness-100"
+                />
+                <div className="absolute inset-0 bg-linear-to-t from-zinc-950/80 to-transparent" />
+
+                <div className="absolute right-6 bottom-4 left-6">
+                  <h4 className="text-xs font-bold tracking-widest text-white uppercase opacity-80">
+                    Filme {project.category}
+                  </h4>
+                  <p className="text-xl leading-tight font-bold text-white">
+                    {project.title.split('|')}
+                  </p>
+                </div>
+              </div>
+
+              {/* Conteúdo inferior */}
+              <div className="flex flex-col gap-3 p-6">
+                <span className="bg-primary/10 text-primary w-fit rounded-lg px-3 py-1 text-[10px] font-bold tracking-wider uppercase">
+                  {project.category}
+                </span>
+                <h3 className="text-lg font-bold text-zinc-100">
+                  {project.title}
+                </h3>
+                <p className="line-clamp-2 text-sm leading-relaxed text-zinc-500 italic">
+                  &quot;{project.description}&quot;
+                </p>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  );
+}

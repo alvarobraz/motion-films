@@ -36,16 +36,24 @@ export function Header() {
 
         {/* Navigation - Desktop */}
         <nav className="hidden items-center gap-8 md:flex">
-          {['Início', 'Portfólio', 'Sobre'].map((item) => (
-            <Link
-              key={item}
-              href={`#${item.toLowerCase()}`}
-              className="text-sm font-medium text-gray-300 transition-colors hover:text-white"
-            >
-              {item}
-            </Link>
-          ))}
-          <Link href="login">Login</Link>
+          <Link
+            href="/"
+            className="text-sm font-medium text-gray-300 transition-colors hover:text-white"
+          >
+            Início
+          </Link>
+          <Link
+            href="#portfolio"
+            className="text-sm font-medium text-gray-300 transition-colors hover:text-white"
+          >
+            Portfólio
+          </Link>
+          <Link
+            href="login"
+            className="text-sm font-medium text-gray-300 transition-colors hover:text-white"
+          >
+            Login
+          </Link>
 
           <Button variant="brand" size="sm" asChild>
             <Link href="#contato">Orçamento</Link>

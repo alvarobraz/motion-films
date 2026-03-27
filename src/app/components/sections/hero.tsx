@@ -22,11 +22,14 @@ export function Hero() {
       {/* Conteúdo da Hero */}
       <div className="relative z-10 container px-4 text-center">
         <h1 className="mb-6 text-4xl font-bold tracking-tight text-white md:text-7xl">
-          Impacto visual que <br />
-          <span className="text-primary">transforma histórias</span>
+          Filmes de alto impacto <br />
+          <span className="text-primary">com qualidade</span>
+          <br />
+          <span className="text-primary">cinematográfica</span>
         </h1>
         <p className="mx-auto mb-10 max-w-2xl text-lg text-gray-300 md:text-xl">
-          Produção cinematográfica para marcas que não aceitam o comum.
+          Criamos conteúdos que conectam marcas e pessoas através de histórias
+          memoráveis
         </p>
 
         <div className="flex flex-col justify-center gap-4 sm:flex-row">
