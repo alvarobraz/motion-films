@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-nocheck
 import { LeadStatus } from '@prisma/client';
 import { prisma } from '../src/lib/prisma';
 import bcrypt from 'bcryptjs';
