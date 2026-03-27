@@ -1,40 +1,23 @@
 'use server';
 
-import { prisma } from '@/lib/prisma';
-import bcrypt from 'bcryptjs';
-import { SignJWT } from 'jose';
 import { cookies } from 'next/headers';
 import { loginSchema, LoginInput } from '@/lib/schemas';
+import { PrismaUserRepository } from '@/infra/repositories/prisma-user-repository';
+import { BcryptService } from '@/infra/services/bcrypt-service';
+import { JwtService } from '@/infra/services/jwt-service';
+import { LoginUseCase } from '@/application/use-cases/login-use-case';
+const loginUseCase = new LoginUseCase(
+  new PrismaUserRepository(),
+  new BcryptService(),
+  new JwtService()
+);
 
 export async function loginAction(data: LoginInput) {
   try {
     const validated = loginSchema.parse(data);
 
-    const user = await prisma.user.findUnique({
-      where: { email: validated.email },
-    });
+    const { token } = await loginUseCase.execute(validated);
 
-    if (!user) {
-      return { success: false, message: 'Credenciais inválidas' };
-    }
-
-    const isPasswordValid = await bcrypt.compare(
-      validated.password,
-      user.password
-    );
-
-    if (!isPasswordValid) {
-      return { success: false, message: 'Credenciais inválidas' };
-    }
-
-    // Gerar JWT
-    const secret = new TextEncoder().encode(process.env.JWT_SECRET);
-    const token = await new SignJWT({ userId: user.id, email: user.email })
-      .setProtectedHeader({ alg: 'HS256' })
-      .setExpirationTime('1d')
-      .sign(secret);
-
-    // Setar Cookie
     const cookieStore = await cookies();
     cookieStore.set('auth_token', token, {
       httpOnly: true,
@@ -45,8 +28,11 @@ export async function loginAction(data: LoginInput) {
     });
 
     return { success: true };
-  } catch (error) {
-    console.log('error ->', error);
-    return { success: false, message: 'Erro ao processar login' };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    return {
+      success: false,
+      message: error.message || 'Erro ao processar login',
+    };
   }
 }
