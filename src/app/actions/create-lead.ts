@@ -1,47 +1,23 @@
 'use server';
 
-import { prisma } from '@/lib/prisma';
+import { CreateLeadUseCase } from '@/application/use-cases/create-lead-use-case';
+import { PrismaLeadRepository } from '@/infra/repositories/prisma-lead-repository';
 import { leadSchema } from '@/lib/schemas';
 import { revalidatePath } from 'next/cache';
-import { z } from 'zod';
 
-export async function createLeadAction(data: z.infer<typeof leadSchema>) {
+const leadRepository = new PrismaLeadRepository();
+const createLeadUseCase = new CreateLeadUseCase(leadRepository);
+
+export async function createLeadAction(data: unknown) {
   try {
     const validated = leadSchema.parse(data);
 
-    await prisma.lead.create({
-      data: {
-        requirement: validated.requirement,
-        message: validated.message,
-        status: 'PENDING',
-        customer: {
-          connectOrCreate: {
-            where: { email: validated.email },
-            create: {
-              name: validated.name,
-              email: validated.email,
-              phone: validated.phone,
-            },
-          },
-        },
-      },
-    });
+    await createLeadUseCase.execute(validated);
 
     revalidatePath('/');
     return { success: true };
   } catch (error) {
-    console.log('Error:', error);
-    if (error instanceof z.ZodError) {
-      return {
-        success: false,
-        message: error.message,
-      };
-    }
-
-    console.error('Erro ao salvar no Banco:', error);
-    return {
-      success: false,
-      message: 'Erro interno ao processar seu contato. Tente novamente.',
-    };
+    console.log(error);
+    return { success: false, message: 'Erro ao processar lead.' };
   }
 }
