@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { Lock } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '../ui/button';
 
@@ -49,10 +50,15 @@ export function Header() {
             Portfólio
           </Link>
           <Link
-            href="login"
-            className="text-sm font-medium text-gray-300 transition-colors hover:text-white"
+            href="/login"
+            className="group hover:border-primary/50 hover:bg-primary/10 hover:text-primary flex items-center justify-center rounded-full border border-white/5 bg-white/5 p-2 text-gray-300 transition-all"
+            title="Acesso Restrito"
+            aria-label="Login"
           >
-            Login
+            <Lock
+              size={18}
+              className="transition-transform group-hover:scale-110"
+            />
           </Link>
 
           <Button variant="brand" size="sm" asChild>

@@ -1,6 +1,7 @@
 'use client';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
+import { fadeInUp } from '@/lib/utils';
 
 const projects = [
   {
@@ -17,7 +18,7 @@ const projects = [
     category: 'Produto',
     description:
       'Filme produzido para a LJ Santos, destacando sua linha de cromagem...',
-    image: '/projects/lj-santos.jpg',
+    image: '/projects/lj-santos-a.jpg',
   },
   {
     id: 3,
@@ -29,15 +30,6 @@ const projects = [
 ];
 
 export function Portfolio() {
-  const fadeInUp = {
-    initial: { opacity: 0, y: 30 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true },
-    transition: {
-      duration: 0.6,
-      ease: 'easeOut' as const,
-    },
-  };
   return (
     <section id="portfolio" className="bg-zinc-950 px-4 py-24">
       <div className="container mx-auto">
@@ -82,15 +74,6 @@ export function Portfolio() {
                   className="object-cover brightness-75 transition-transform duration-500 group-hover:scale-110 group-hover:brightness-100"
                 />
                 <div className="absolute inset-0 bg-linear-to-t from-zinc-950/80 to-transparent" />
-
-                <div className="absolute right-6 bottom-4 left-6">
-                  <h4 className="text-xs font-bold tracking-widest text-white uppercase opacity-80">
-                    Filme {project.category}
-                  </h4>
-                  <p className="text-xl leading-tight font-bold text-white">
-                    {project.title.split('|')}
-                  </p>
-                </div>
               </div>
 
               {/* Conteúdo inferior */}
