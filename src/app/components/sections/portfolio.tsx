@@ -2,6 +2,7 @@
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { fadeInUp } from '@/lib/utils';
+import { PortfolioWrapper } from './portfolio-wrapper';
 
 const projects = [
   {
@@ -53,16 +54,7 @@ export function Portfolio() {
         </motion.div>
 
         {/* Grid de Projetos */}
-        <motion.div
-          initial="initial"
-          whileInView="whileInView"
-          viewport={{ once: true, amount: 0.1 }}
-          variants={{
-            initial: {},
-            whileInView: { transition: { staggerChildren: 0.2 } },
-          }}
-          className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3"
-        >
+        <PortfolioWrapper>
           {projects.map((project) => (
             <motion.div
               key={project.id}
@@ -93,7 +85,7 @@ export function Portfolio() {
               </div>
             </motion.div>
           ))}
-        </motion.div>
+        </PortfolioWrapper>
       </div>
     </section>
   );
