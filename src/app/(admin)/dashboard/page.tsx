@@ -33,7 +33,7 @@ export default async function DashboardPage({ searchParams }: PageProps) {
 
       {/* List leads */}
       <div className="flex w-full flex-col gap-8 sm:flex-row md:flex-row lg:flex-row">
-        <div className="flex flex-col gap-4 sm:w-[70%] md:w-[70%] lg:w-[70%]">
+        <div className="flex flex-1 flex-col gap-4">
           <div className="border-border-subtle flex items-center justify-between border-b pb-4">
             <h3 className="text-text-section text-xs font-bold tracking-widest uppercase">
               Últimos Leads ({leads.length})
@@ -60,7 +60,7 @@ export default async function DashboardPage({ searchParams }: PageProps) {
         </div>
 
         {/* Chart */}
-        <aside className="relative flex h-100 flex-col items-start gap-4">
+        <aside className="relative flex w-full flex-col items-start gap-4 sm:w-80 lg:w-96">
           <div className="border-border-subtle flex items-center border-b pb-4">
             <h3 className="text-text-section text-xs font-bold tracking-widest uppercase">
               Estatísticas

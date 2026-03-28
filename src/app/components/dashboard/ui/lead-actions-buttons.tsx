@@ -33,7 +33,7 @@ export function LeadActionsButtons({
   const isAnyActionLoading = isDeleting || isUpdating || isArchiving;
 
   return (
-    <div className="flex items-center gap-2 opacity-0 transition-opacity group-hover:opacity-100">
+    <div className="flex items-center gap-2 transition-all">
       {/* Botão de Contato */}
       <button
         onClick={handleStatusToggle}
