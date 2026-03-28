@@ -15,7 +15,7 @@ const necessityOptions = [
 const statusOptions: LeadStatus[] = ['PENDING', 'CONTACTED', 'ARCHIVED'];
 
 async function main() {
-  const adminEmail = 'admin@motionfilms.com.br';
+  const adminEmail = 'admin@motinfilms.com.br';
   const adminPassword = '1234567';
 
   await prisma.user.deleteMany({
