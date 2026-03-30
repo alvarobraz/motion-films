@@ -7,7 +7,7 @@
 <h1 align="center">Motin Films 🚀</h1>
 
 <p align="center">
-  Sistema Full Stack de captação e gestão de leads com Clean Architecture.
+  Sistema Full Stack de captação e gestão de leads com com Next.js e Clean Architecture.
 </p>
 
 <p align="center">
@@ -64,7 +64,7 @@ O projeto utiliza as tecnologias mais modernas do ecossistema JavaScript/TypeScr
 - **Bcryptjs** - Hashing de senhas para segurança de usuários admin.
 - **Clean Architecture** - Separação clara entre Domínio, Aplicação e Infraestrutura.
 
-## :structure: Estrutura do Projeto
+## Estrutura
 
 ```
 .
@@ -193,7 +193,7 @@ O projeto utiliza as tecnologias mais modernas do ecossistema JavaScript/TypeScr
 
 ```bash
 # Clone o projeto
-$ git clone [https://github.com/alvarobraz/motion-films](https://github.com/alvarobraz/motion-films)
+$ $ git clone https://github.com/alvarobraz/motion-films
 
 # Acesse a pasta
 $ cd motion-films
